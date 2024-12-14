@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Phone, Clock, Coffee, ChevronRight } from "lucide-react";
+import { MapPin, Phone, Clock, Coffee, ChevronRight, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MenuSection } from "@/components/menu-section";
 import { CollapsibleMenuSection } from "@/components/collapsible-menu-section";
@@ -214,12 +214,10 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-4 text-center">
-                <MapPin className="h-16 w-16 text-[#8B4513]" />
-                <h3 className="text-2xl font-bold text-[#5D2E0D]">
-                  Cozy Atmosphere
-                </h3>
+                <GraduationCap className="h-16 w-16 text-[#8B4513]" />
+                <h3 className="text-2xl font-bold text-[#5D2E0D]">Student Discount</h3>
                 <p className="text-[#8B4513] text-lg">
-                  Perfect space for work, meetings, or relaxation
+                  15% off with valid student ID, Tue-Fri 12PM-5PM
                 </p>
               </div>
             </div>
