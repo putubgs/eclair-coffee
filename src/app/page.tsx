@@ -1,9 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Phone, Clock, Coffee, ChevronRight, GraduationCap } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Clock,
+  Coffee,
+  ChevronRight,
+  GraduationCap,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MenuSection } from "@/components/menu-section";
 import { CollapsibleMenuSection } from "@/components/collapsible-menu-section";
+import { useState, useEffect } from "react";
 
 const foodMenu = {
   mains: [
@@ -87,6 +97,25 @@ const pastriesMenu = [
 ];
 
 export default function Home() {
+  const placeImages = [
+    { src: "/coffee-shop-3.jpg", alt: "Éclair Coffee Shop - 1" },
+    { src: "/coffee-place.jpg", alt: "Éclair Coffee Shop - 2" },
+    { src: "/coffee-food.jpg", alt: "Éclair Coffee Shop - 3" },
+    { src: "/coffee-shop-2.jpg", alt: "Éclair Coffee Shop - 4" },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [previousIndex, setPreviousIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPreviousIndex(currentIndex);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % placeImages.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, placeImages.length]);
+
   return (
     <div className="flex min-h-screen flex-col bg-[#FDF5E6]">
       <header className="sticky top-0 z-50 w-full border-b bg-[#F9F0D9]/95 backdrop-blur supports-[backdrop-filter]:bg-[#F9F0D9]/60">
@@ -215,7 +244,9 @@ export default function Home() {
               </div>
               <div className="flex flex-col items-center space-y-4 text-center">
                 <GraduationCap className="h-16 w-16 text-[#8B4513]" />
-                <h3 className="text-2xl font-bold text-[#5D2E0D]">Student Discount</h3>
+                <h3 className="text-2xl font-bold text-[#5D2E0D]">
+                  Student Discount
+                </h3>
                 <p className="text-[#8B4513] text-lg">
                   15% off with valid student ID, Tue-Fri 12PM-5PM
                 </p>
@@ -312,19 +343,30 @@ export default function Home() {
         <section id="about" className="w-full py-20 md:py-32 bg-white">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid gap-12 lg:grid-cols-2 items-center">
-              <div className="relative">
-                <Image
-                  src="/coffee-shop-3.jpg"
-                  alt="Éclair Coffee Shop Interior"
-                  width={600}
-                  height={400}
-                  className="rounded-2xl object-cover shadow-2xl"
-                />
-                <div className="absolute -bottom-6 -right-6 bg-[#F5E5D3] p-4 rounded-lg shadow-lg">
+              <div className="relative h-[400px] md:h-[600px] w-full max-w-[600px] mx-auto">
+                {placeImages.map((image, index) => (
+                  <Image
+                    key={index}
+                    src={image.src}
+                    alt={image.alt}
+                    width={600}
+                    height={600}
+                    className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${
+                      index === currentIndex
+                        ? "opacity-100 z-10"
+                        : index === previousIndex
+                        ? "opacity-0 z-10"
+                        : "opacity-0 z-0"
+                    } rounded-2xl object-cover shadow-2xl`}
+                  />
+                ))}
+                <div className="absolute -bottom-6 md:-right-6 -right-4 bg-[#F5E5D3] p-4 rounded-lg shadow-lg z-20">
                   <p className="text-[#8B4513] font-bold">Cozy Atmosphere</p>
                   <p className="text-[#5D2E0D]">Perfect for any occasion</p>
                 </div>
               </div>
+
+              {/* Text Content */}
               <div className="space-y-6">
                 <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl text-[#5D2E0D]">
                   Discover the Essence of Éclair
